@@ -104,26 +104,32 @@ func _get_local_ip() -> String:
 	return "127.0.0.1"
 
 func _encode_lobby_code(ip: String, port: int) -> String:
-	# Простой код: последние два октета IP + порт
+	# Формат: PREFIX:OCT2.OCT3.OCT4-PORT
+	# Поддерживает 192.168.x.x и 10.x.x.x
 	var parts = ip.split(".")
 	if parts.size() < 4:
 		return "LOCAL"
-	return "%s%s-%d" % [parts[2].lpad(3, "0"), parts[3].lpad(3, "0"), port]
+	var prefix = "A" if parts[0] == "192" else "B"  # A=192.168, B=10.x
+	return "%s%s%s%s-%d" % [prefix, parts[1].lpad(3,"0"), parts[2].lpad(3,"0"), parts[3].lpad(3,"0"), port]
 
 func _decode_lobby_code(code: String) -> Dictionary:
-	# Формат: XXXYYY-PORT где XXX=октет3, YYY=октет4
+	# Формат: A/B + oct1(3) + oct2(3) + oct3(3) - port
 	var split = code.split("-")
-	if split.size() != 2 or split[0].length() < 6:
+	if split.size() != 2 or split[0].length() < 10:
 		return {}
-	var oct3 = split[0].substr(0, 3).to_int()
-	var oct4 = split[0].substr(3, 3).to_int()
+	var prefix = split[0].substr(0, 1)
+	var o1 = split[0].substr(1, 3).to_int()
+	var o2 = split[0].substr(4, 3).to_int()
+	var o3 = split[0].substr(7, 3).to_int()
 	var port = split[1].to_int()
 	if port == 0:
 		port = DEFAULT_PORT
-	return {
-		"ip": "192.168.%d.%d" % [oct3, oct4],
-		"port": port
-	}
+	var ip: String
+	if prefix == "A":
+		ip = "192.%d.%d.%d" % [o1, o2, o3]
+	else:
+		ip = "10.%d.%d.%d" % [o1, o2, o3]
+	return {"ip": ip, "port": port}
 
 func get_player_count() -> int:
 	return players.size()
