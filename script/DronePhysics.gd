@@ -9,7 +9,7 @@ var kQ: float = 3.5e-9
 # Drone physical parameters
 var mass_kg: float = 0.21
 var arm_length: float = 0.1  # meters, center to motor
-var inertia: Vector3 = Vector3(0.003, 0.003, 0.006)  # kg*m^2
+var drone_inertia: Vector3 = Vector3(0.003, 0.003, 0.006)  # kg*m^2
 
 # Motor state [front-left, front-right, rear-left, rear-right]
 var motor_rpm: Array[float] = [0.0, 0.0, 0.0, 0.0]
@@ -54,7 +54,9 @@ const MIN_RPM: float = 0.0
 
 func _ready() -> void:
 	mass = mass_kg
-	inertia = inertia
+	# Применяем кастомный тензор инерции к RigidBody3D.
+	# drone_inertia — наша переменная, inertia — встроенное свойство движка.
+	inertia = drone_inertia
 	pid_roll = PIDController.new(1.2, 0.45, 18.0)
 	pid_pitch = PIDController.new(1.2, 0.45, 18.0)
 	pid_yaw = PIDController.new(1.8, 0.0, 0.0)
