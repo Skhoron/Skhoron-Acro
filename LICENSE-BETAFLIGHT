@@ -1,0 +1,29 @@
+                    GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+This license applies to portions of code derived from or inspired by
+the Betaflight flight controller firmware:
+  https://github.com/betaflight/betaflight
+
+Original Betaflight copyright:
+  Copyright (C) Betaflight contributors
+
+Files covered by this license:
+  - scripts/DronePhysics.gd (PID controller logic)
+  - Any future Rust/C files porting Betaflight PID algorithms
+
+=======================================================================
+
+Betaflight is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+Full license text: https://www.gnu.org/licenses/gpl-3.0.txt
+
+SPDX-License-Identifier: GPL-3.0-only
