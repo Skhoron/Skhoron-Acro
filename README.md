@@ -38,4 +38,4 @@ APK available under Actions → Artifacts.
 
 ## License
 
-GPL v3 — see [LICENSE](LICENSE)
+GPL v3 — see [LICENSE](LICENSE).
